@@ -1,0 +1,8 @@
+github.com/spiegel-im-spiegel/ggm github.com/emicklei/dot@v0.9.3
+github.com/spiegel-im-spiegel/ggm github.com/spf13/cobra@v0.0.3
+github.com/spiegel-im-spiegel/ggm github.com/spf13/pflag@v1.0.3
+github.com/spiegel-im-spiegel/ggm github.com/spiegel-im-spiegel/gocli@v0.9.4
+github.com/spiegel-im-spiegel/ggm golang.org/x/xerrors@v0.0.0-20190410155217-1f06c39b4373
+github.com/spiegel-im-spiegel/gocli@v0.9.4 github.com/mattn/go-isatty@v0.0.7
+github.com/spiegel-im-spiegel/gocli@v0.9.4 golang.org/x/xerrors@v0.0.0-20190315151331-d61658bd2e18
+github.com/mattn/go-isatty@v0.0.7 golang.org/x/sys@v0.0.0-20190222072716-a9d3bda3a223
