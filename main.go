@@ -1,83 +1,21 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
 	"os"
-	"strings"
 
-	"github.com/awalterschulze/gographviz"
+	"github.com/spiegel-im-spiegel/ggm/facade"
+	"github.com/spiegel-im-spiegel/gocli/rwi"
 )
-
-type node map[string]string
-
-func (n node) addNode(g *gographviz.Graph, parent string) error {
-	for k, v := range n {
-		if err := g.AddNode(parent, v, map[string]string{"label": "\"" + strings.Replace(k, "@", "\\n", -1) + "\""}); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-type edge struct {
-	left  string
-	right string
-}
-
-func (e edge) String() string {
-	return fmt.Sprintf("%s->%s", e.left, e.right)
-}
-
-var (
-	mapNode = node{}
-	edges   = []edge{}
-)
-
-func split(text string, count int) int {
-	ss := strings.Split(text, " ")
-	for _, s := range ss {
-		if _, ok := mapNode[s]; !ok {
-			count++
-			mapNode[s] = fmt.Sprintf("N%d", count)
-		}
-	}
-	e := edge{left: mapNode[ss[0]], right: mapNode[ss[1]]}
-	edges = append(edges, e)
-	return count
-}
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	count := 0
-	for scanner.Scan() {
-		count = split(scanner.Text(), count)
-	}
-	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return
-	}
-	parent := "gomod"
-	graph := gographviz.NewGraph()
-	if err := graph.SetName(parent); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return
-	}
-	if err := graph.SetDir(true); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return
-	}
-	if err := mapNode.addNode(graph, parent); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return
-	}
-	for _, e := range edges {
-		if err := graph.AddEdge(e.left, e.right, true, nil); err != nil {
-			fmt.Fprintln(os.Stderr, err)
-			return
-		}
-	}
-	fmt.Println(graph)
+	facade.Execute(
+		rwi.New(
+			rwi.WithReader(os.Stdin),
+			rwi.WithWriter(os.Stdout),
+			rwi.WithErrorWriter(os.Stderr),
+		),
+		os.Args[1:],
+	).Exit()
 }
 
 /* Copyright 2019 Spiegel
