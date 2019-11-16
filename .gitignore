@@ -12,5 +12,5 @@
 *.out
 
 # Other files and folders
-go.sum
+dist/
 *.bak

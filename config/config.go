@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 
 	"github.com/BurntSushi/toml"
-	"github.com/spiegel-im-spiegel/ggm/errs"
+	"github.com/spiegel-im-spiegel/errs"
 )
 
 //Config is configuration class
@@ -18,11 +18,11 @@ type Config struct {
 func Decode(r io.Reader) (*Config, error) {
 	data, err := ioutil.ReadAll(r)
 	if err != nil {
-		return nil, errs.Wrap(err, "error in config.Decode() function")
+		return nil, errs.Wrap(err, "")
 	}
 	c := &Config{}
 	if err := toml.Unmarshal(data, c); err != nil {
-		return nil, errs.Wrap(err, "error in config.Decode() function")
+		return nil, errs.Wrap(err, "")
 	}
 	return c, nil
 }

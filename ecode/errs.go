@@ -1,34 +1,23 @@
-package errs
+package ecode
 
-import (
-	errors "golang.org/x/xerrors"
+import "fmt"
+
+//Num is error number for gpgpdumo
+type Num int
+
+const (
+	ErrNullPointer Num = iota + 1
 )
 
-//Is is wrapping function for errors.Is
-func Is(err, target error) bool {
-	if err == nil || target == nil {
-		return err == target
-	}
-	return errors.Is(err, target)
+var errMessage = map[Num]string{
+	ErrNullPointer: "Null reference instance",
 }
 
-//As is wrapping function for errors.As
-func As(err error, target interface{}) bool {
-	if err == nil {
-		return false
+func (n Num) Error() string {
+	if s, ok := errMessage[n]; ok {
+		return s
 	}
-	return errors.As(err, target)
-}
-
-//Cause returns cause error in target error
-func Cause(err error) error {
-	for {
-		unwrap := errors.Unwrap(err)
-		if unwrap == nil {
-			return err
-		}
-		err = unwrap
-	}
+	return fmt.Sprintf("Unknown error (%d)", int(n))
 }
 
 /* Copyright 2019 Spiegel

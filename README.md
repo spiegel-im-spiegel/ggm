@@ -23,9 +23,7 @@ Flags:
   -h, --help            help for ggm
   -v, --version         Output version of ggm
 
-$ go mod graph | ggm  -c config/sample.toml | dot -Tpng -o ggm.png
+$ go mod graph | ggm -c config/sample.toml | dot -Tpng -o ggm.png
 ```
-
-![ggm](./ggm.png)
 
 [ggm]: https://github.com/spiegel-im-spiegel/ggm "spiegel-im-spiegel/ggm: Graph of Go Modules"

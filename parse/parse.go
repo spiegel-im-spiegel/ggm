@@ -7,8 +7,9 @@ import (
 	"strings"
 
 	"github.com/emicklei/dot"
+	"github.com/spiegel-im-spiegel/errs"
 	"github.com/spiegel-im-spiegel/ggm/config"
-	"github.com/spiegel-im-spiegel/ggm/errs"
+	"github.com/spiegel-im-spiegel/ggm/ecode"
 )
 
 type nodes struct {
@@ -68,7 +69,7 @@ func New(r io.Reader) (*Cxt, error) {
 	if r != nil {
 		conf, err = config.Decode(r)
 		if err != nil {
-			return nil, errs.Wrap(err, "error in parse.New() function")
+			return nil, errs.Wrap(err, "")
 		}
 	}
 	c := &Cxt{graph: dot.NewGraph(dot.Directed).ID("G"), nodeList: newNodes(conf)}
@@ -78,7 +79,7 @@ func New(r io.Reader) (*Cxt, error) {
 //Do returns result parsing data
 func (c *Cxt) Do(r io.Reader) error {
 	if c == nil || c.graph == nil {
-		return errs.Wrap(errs.ErrNullPointer, "error in parse.Cxt.Do() function")
+		return errs.Wrap(ecode.ErrNullPointer, "")
 	}
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
@@ -88,14 +89,14 @@ func (c *Cxt) Do(r io.Reader) error {
 		}
 	}
 	if err := scanner.Err(); err != nil {
-		return errs.Wrap(err, "error in parse.Cxt.Do() function")
+		return errs.Wrap(err, "")
 	}
 	return nil
 }
 
 func (c *Cxt) Write(w io.Writer) error {
 	if c == nil || c.graph == nil {
-		return errs.Wrap(errs.ErrNullPointer, "error in parse.Cxt.Do() function")
+		return errs.Wrap(ecode.ErrNullPointer, "")
 	}
 	c.graph.Write(w)
 	return nil

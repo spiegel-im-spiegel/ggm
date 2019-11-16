@@ -1,23 +1,27 @@
-package errs
+package ecode
 
-import "fmt"
-
-//Num is error number for gpgpdumo
-type Num int
-
-const (
-	ErrNullPointer Num = iota + 1
+import (
+	"fmt"
+	"testing"
 )
 
-var errMessage = map[Num]string{
-	ErrNullPointer: "Null reference instance",
-}
-
-func (n Num) Error() string {
-	if s, ok := errMessage[n]; ok {
-		return s
+func TestNumError(t *testing.T) {
+	testCases := []struct {
+		err error
+		str string
+	}{
+		{err: Num(0), str: "Unknown error (0)"},
+		{err: ErrNullPointer, str: "Null reference instance"},
+		{err: Num(2), str: "Unknown error (2)"},
 	}
-	return fmt.Sprintf("Unknown error (%d)", int(n))
+
+	for _, tc := range testCases {
+		errStr := tc.err.Error()
+		if errStr != tc.str {
+			t.Errorf("\"%v\" != \"%v\"", errStr, tc.str)
+		}
+		fmt.Printf("Info(TestNumError): %+v\n", tc.err)
+	}
 }
 
 /* Copyright 2019 Spiegel
